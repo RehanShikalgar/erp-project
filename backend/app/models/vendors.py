@@ -8,6 +8,6 @@ class Vendor(Base):
     __tablename__ = "vendors"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[str] = mapped_column(ForeignKey("user.id"))
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
     name: Mapped[str] = mapped_column(String(200))
     created_at: Mapped[datetime] =  mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))

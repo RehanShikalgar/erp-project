@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from decimal import Decimal
 from sqlalchemy import Date, DateTime, ForeignKey, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column
@@ -19,7 +19,7 @@ class Invoice(Base):
     #____________________________________________________________________
 
     vendor_id: Mapped[int] = mapped_column(ForeignKey("vendors.id"))
-    invoice_number: Mapped[int] = mapped_column(String(50), index=True)
-    invoice_date: Mapped[Date] = mapped_column(Date)
+    invoice_number: Mapped[str] = mapped_column(String(50), index=True)
+    invoice_date: Mapped[date] = mapped_column(Date)
     total: Mapped[Decimal] = mapped_column(Numeric(12,2))
     created_at: Mapped[DateTime] = mapped_column(DateTime, default = lambda: datetime.now(timezone.utc))
