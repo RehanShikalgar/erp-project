@@ -6,6 +6,7 @@ from app.database import get_db
 from app.models import User
 from app.schemas.users import UserCreate, UserOut, UserLogin
 from app.security import hash_password, verify_password
+from app.dependencies import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -36,3 +37,11 @@ def login(data: UserLogin, request: Request, db: Session =  Depends(get_db)):
     request.session.clear()
     request.session["user_id"] = user.id
     return user 
+
+@router.get("/me",response_model=UserOut)
+def me(current_user: User = Depends(get_current_user)):
+    return current_user
+
+@router.post("/logout",status_code=status.HTTP_204_NO_CONTENT)
+def logout(request: Request):
+    request.session.clear()
